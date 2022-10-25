@@ -1,25 +1,26 @@
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
+import AddTodoForm from './components/AddTodoForm';
+import { css } from '@emotion/react'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div css={css`
+    
+    background-color: #777;
+    font-size: 24px;
+    border-radius: 4px;
+    color:#ddd;
+    display:flex;
+    align-items: center;
+    
+  `}>
+    
+    <AddTodoForm/>
+
     </div>
-  );
+  )
+  
 }
 
 export default App;
