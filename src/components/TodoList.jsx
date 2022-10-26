@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
@@ -10,18 +10,47 @@ import TodoItem from './TodoItem'
 import { css } from '@emotion/css'
 import { useSelector, useDispatch } from 'react-redux'
 
+import { deleteAll } from '../redux/todoSlice'
 function TodoList(props) {
+  const dispatch = useDispatch()
   const todos = useSelector((state) => state.todos)
-  //for test
+  const [ids, setIds] = useState([])
+  const [deleteTodos, setDeleteTodos] = useState(false)
 
-  // const todos = [
-  //   { id: 1, title: 'task 1', completed: false },
-  //   { id: 2, title: 'task 2', completed: true },
-  //   { id: 3, title: 'task 3', completed: false },
-  // ]
+  const deleteTodosHandler = (ids) => {
+    console.log('delete' + ids)
+    dispatch(deleteAll(ids))
+  }
 
   return (
     <>
+      {deleteTodos && (
+        <button
+          className={css`
+                 
+                    background-color:  rgb(243, 14, 14);
+                    color:'#fff';
+                    text-spacing:1.2px
+                    border:none;
+                    border-radius:5px;
+                    padding:5px 10px ;
+                    margin:8px 40% 12px 85%;
+
+                    &:hover{
+                      background-color:#111;
+                      color:rgb(243, 14, 14);
+                    }
+                   
+                  
+                `}
+          onClick={() => {
+            console.log('delete' + ids)
+            dispatch(deleteAll(ids))
+          }}
+        >
+          DeleteAll
+        </button>
+      )}
       <TableContainer component={Paper}>
         <Table
           sx={{ minWidth: 650 }}
@@ -49,9 +78,23 @@ function TodoList(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {todos.map((todo, i) => (
+            {todos.map((todo, id) => (
               <TableRow
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                key={todo.id}
+                className={css`
+                  &:active {
+                    background-color: rgb(235, 76, 76);
+                  }
+                `}
+                onClick={() => {
+                  ids.push(todo.id)
+                  setIds(ids)
+                  console.log(ids)
+                  if (ids.length > 0) {
+                    setDeleteTodos(true)
+                  }
+                }}
               >
                 <TodoItem
                   component="th"
@@ -60,6 +103,7 @@ function TodoList(props) {
                   id={todo.id}
                   title={todo.title}
                   completed={todo.completed}
+                  // onClick={selectHandler(id)}
                 >
                   {todo.title}
                 </TodoItem>
