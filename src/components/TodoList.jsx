@@ -11,16 +11,16 @@ import { css } from '@emotion/css'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { deleteAll } from '../redux/todoSlice'
+import { getTodosAsync } from '../redux/todoSlice'
 function TodoList(props) {
   const dispatch = useDispatch()
   const todos = useSelector((state) => state.todos)
   const [ids, setIds] = useState([])
   const [deleteTodos, setDeleteTodos] = useState(false)
 
-  const deleteTodosHandler = (ids) => {
-    console.log('delete' + ids)
-    dispatch(deleteAll(ids))
-  }
+  useEffect(() => {
+    dispatch(getTodosAsync())
+  }, [dispatch])
 
   return (
     <>

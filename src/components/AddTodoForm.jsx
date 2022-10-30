@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField'
 import TodoList from './TodoList'
 
 import { useDispatch } from 'react-redux'
-import { addTodo } from '../redux/todoSlice'
+import { addTodoAsync } from '../redux/todoSlice'
 import { css } from '@emotion/css'
 
 function AddTodoForm(props) {
@@ -14,7 +14,7 @@ function AddTodoForm(props) {
     event.preventDefault()
 
     if (titleValue) {
-      dispatch(addTodo({ title: titleValue }))
+      dispatch(addTodoAsync({ title: titleValue }))
     }
   }
   return (

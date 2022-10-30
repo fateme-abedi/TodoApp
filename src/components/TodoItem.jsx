@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import TableCell from '@mui/material/TableCell'
 import { css } from '@emotion/css'
-import { deleteTodo, toggleCompleted } from '../redux/todoSlice'
+import { deleteTodo, toggleCompleteAsync } from '../redux/todoSlice'
 import { useDispatch } from 'react-redux'
 
 function TodoItem({ id, title, completed }) {
   const dispatch = useDispatch()
   const [check, setCheck] = useState(false)
   const checkboxHandler = () => {
-    dispatch(toggleCompleted({ id, completed: !completed }))
+    dispatch(toggleCompleteAsync({ id, completed: !completed }))
 
     if (completed === false) {
       setCheck(true)
@@ -77,13 +77,6 @@ function TodoItem({ id, title, completed }) {
         >
           Delete
         </button>
-        <input
-          id="check"
-          type="checkbox"
-          onSelectionModelChange={(id) => {
-            console.log(id)
-          }}
-        ></input>
       </div>
     </TableCell>
   )
