@@ -6,13 +6,15 @@ export const getTodosAsync = createAsyncThunk(
 	'todos/getTodosAsync',
 	async () => {
 		const resp = await fetch('https://todosapp-bc036-default-rtdb.firebaseio.com/todos.json');
-            
+            console.log('getbody'+resp.body.json());
         const loadedTodos = [];
 		if (resp.ok) {
 			const todos = await resp.json();
-			for( const id of todos){
-				loadedTodos.push({ id: id, title:todos[id].title});
-			}
+			Object.keys(todos).forEach(function(key, index){
+				loadedTodos.push({id:todos[key].id, title:todos[key].title})
+			})
+			
+			console.log( loadedTodos);
 			return { loadedTodos };
 		}
 	}
@@ -38,11 +40,6 @@ export const addTodoAsync = createAsyncThunk(
 			body: JSON.stringify(task),
 		});
 
-		// if (resp.ok) {
-		// 	 const todos = await resp.json();
-		// 	console.log(todo);
-		// 	return { todos };
-		// }
 
 		
 	}
@@ -81,6 +78,21 @@ export const deleteTodoAsync = createAsyncThunk(
 	}
 );
 
+export const deleteMultiTodoAsync = createAsyncThunk(
+	'todos/deleteTodoAsync',
+	async (payload) => {
+		const resp = await fetch(`https://todosapp-bc036-default-rtdb.firebaseio.com/todos/${payload.id}.json`, {
+			method: 'DELETE',
+		});
+        const ids=[]
+		if (resp.ok) {
+			ids.push(payload.id);
+
+			return {ids };
+		}
+	}
+);
+
 
 export const todoSlice=createSlice({ 
     name:'todos',
@@ -115,6 +127,7 @@ export const todoSlice=createSlice({
 			return state.filter((todo) => !ids.includes(todo.id))
 
 		}
+		
        
     },
 
@@ -122,7 +135,7 @@ export const todoSlice=createSlice({
 
         [getTodosAsync.fulfilled]: (state, action) => {
 			console.log("get::::"+action);
-			state.todos=action.payload.todos;
+			state.push(...action.payload.loadedTodos);
 			
 		},
 		[addTodoAsync.fulfilled]: (state, action) => {
@@ -138,6 +151,9 @@ export const todoSlice=createSlice({
 		},
 		[deleteTodoAsync.fulfilled]: (state, action) => {
 			state.filter((todo) => todo.id !== action.payload.id);
+		},
+		[deleteMultiTodoAsync.fulfilled]: (state, action) => {
+			state.filter((todo) => !action.payload.ids.includes(todo.id));
 		},
 
     }
