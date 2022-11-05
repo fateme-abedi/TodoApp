@@ -17,11 +17,26 @@ function AddTodoForm(props) {
       dispatch(addTodoAsync({ title: titleValue }))
     }
   }
+
   return (
     <>
-      <form
-        onSubmit={formSubmitHandler}
+      <div
         className={css`
+          justify-items: center;
+          @media (max-width: 766px) {
+            width: 80%;
+            font-size: 20px;
+            margin: 5px auto;
+          }
+          @media (max-width: 375px) {
+            width: 50%;
+            font-size: 15px;
+          }
+        `}
+      >
+        <form
+          onSubmit={formSubmitHandler}
+          className={css`
       padding: 32px;
       margin:13px
       font-size: 24px;
@@ -30,30 +45,30 @@ function AddTodoForm(props) {
       
       
     `}
-      >
-        <Box
-          className={css`
-            margin-bottom: 23px;
-          `}
         >
-          <TextField
-            id="standard-basic"
-            label="Write your task..."
-            variant="standard"
-            value={titleValue}
-            onChange={(event) => setTitleValue(event.target.value)}
+          <Box
             className={css`
               margin-bottom: 23px;
-              font-size: 24px;
-              border-radius: 4px;
-              color: #fff;
-              width: 100%;
             `}
-          />
-        </Box>
-        <button
-          type="submit"
-          className={css`
+          >
+            <TextField
+              id="standard-basic"
+              label="Write your task..."
+              variant="standard"
+              value={titleValue}
+              onChange={(event) => setTitleValue(event.target.value)}
+              className={css`
+                margin-bottom: 23px;
+                font-size: 24px;
+                border-radius: 4px;
+                color: #fff;
+                width: 100%;
+              `}
+            />
+          </Box>
+          <button
+            type="submit"
+            className={css`
              
               margin-top:13px
               font-size: 24px;
@@ -69,11 +84,12 @@ function AddTodoForm(props) {
                 transform:scale(1.1)
               }
     `}
-        >
-          Add Task
-        </button>
-      </form>
-      <TodoList />
+          >
+            Add Task
+          </button>
+        </form>
+        <TodoList />
+      </div>
     </>
   )
 }

@@ -60,6 +60,8 @@ function TodoList(props) {
             font-size: 24px;
             border-radius: 4px;
             background-color: #ddd;
+            width: 100%;
+            overflow: hidden;
             &table.mailTable {
               border: 5px solid #111;
             }
